@@ -1,7 +1,7 @@
-package com.viscontti.challeng002.main;
+package com.viscontti.challenge002.main;
 
-import com.viscontti.challeng002.repository.BooksRepository;
-import com.viscontti.challeng002.service.HTTPService;
+import com.viscontti.challenge002.repository.BooksRepository;
+import com.viscontti.challenge002.service.HTTPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

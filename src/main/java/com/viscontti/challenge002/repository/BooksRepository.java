@@ -1,4 +1,4 @@
-package com.viscontti.challeng002.repository;
+package com.viscontti.challenge002.repository;
 
 import org.springframework.stereotype.Repository;
 

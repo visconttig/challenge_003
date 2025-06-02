@@ -1,4 +1,4 @@
-package com.viscontti.challeng002.service;
+package com.viscontti.challenge002.service;
 
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.viscontti.challeng002;
+package com.viscontti.challenge002;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
