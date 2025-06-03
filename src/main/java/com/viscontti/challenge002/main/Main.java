@@ -12,10 +12,8 @@ public class Main {
     @Autowired
     private final HTTPService httpService;
     @Autowired
-    private BooksRepository booksRepository;
 
-    public Main(HTTPService httpService,
-                BooksRepository booksRepository){
+    public Main(HTTPService httpService){
         this.httpService = httpService;
     }
 

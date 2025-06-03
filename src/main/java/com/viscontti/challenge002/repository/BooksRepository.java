@@ -1,7 +1,10 @@
 package com.viscontti.challenge002.repository;
 
-import org.springframework.stereotype.Repository;
+import com.viscontti.challenge002.model.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-@Repository
-public class BooksRepository {
+public interface BooksRepository extends JpaRepository<Book, Long> {
+
+
 }
