@@ -1,4 +1,4 @@
-package com.viscontti.challenge002;
+package com.viscontti.challenge002.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

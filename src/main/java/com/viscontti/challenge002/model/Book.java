@@ -3,12 +3,12 @@ package com.viscontti.challenge002.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Books")
+@Table(name = "books")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String author;
 
