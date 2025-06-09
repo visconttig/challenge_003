@@ -2,6 +2,7 @@ package com.viscontti.challenge002.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Author {
     private int birth_year;
     private int death_year;
     @ManyToMany(mappedBy = "authors")
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -44,4 +45,13 @@ public class Author {
         this.death_year = death_year;
     }
 
+    public void addBook(Book book) {
+       if(!(books.contains(book))){
+           books.add(book);
+       }
+    }
+
+    public void setBooks(List<Book> books){
+        this.books = books;
+    }
 }

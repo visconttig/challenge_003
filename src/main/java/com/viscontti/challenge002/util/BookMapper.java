@@ -19,6 +19,10 @@ public class BookMapper {
                 .getAuthors()
                 .stream()
                 .map(this::toEntity)
+                .map((author) -> {
+                    author.addBook(book);
+                    return author;
+                })
                 .collect(Collectors.toList());
 
         book.setAuthors(authors);
