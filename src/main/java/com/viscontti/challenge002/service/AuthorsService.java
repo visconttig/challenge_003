@@ -1,0 +1,24 @@
+package com.viscontti.challenge002.service;
+
+import com.viscontti.challenge002.model.Author;
+import com.viscontti.challenge002.repository.AuthorsRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class AuthorsService {
+    private final AuthorsRepository authorsRepository;
+
+    public AuthorsService(AuthorsRepository authorsRepository){
+        this.authorsRepository = authorsRepository;
+    }
+
+    public List<Author> getAllAuthors(){
+        return authorsRepository.findAll();
+    }
+
+    public void saveAuthor(Author author){
+        authorsRepository.save(author);
+    }
+}

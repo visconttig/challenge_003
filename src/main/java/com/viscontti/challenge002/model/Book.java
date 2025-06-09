@@ -2,6 +2,8 @@ package com.viscontti.challenge002.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "books")
 public class Book {
@@ -10,7 +12,8 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String author;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private List<Author> authors;
 
     public String getName() {
         return name;
@@ -20,12 +23,12 @@ public class Book {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
+    public List<Author> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
     }
 
     public long getId() {
