@@ -8,10 +8,9 @@ import org.springframework.stereotype.Service;
 public class Main {
     private final String URL_BASE = "https://gutendex.com/";
 
-    @Autowired
     private final HTTPService httpService;
-    @Autowired
 
+    @Autowired
     public Main(HTTPService httpService){
         this.httpService = httpService;
     }

@@ -1,7 +1,6 @@
 package com.viscontti.challenge002.model;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +50,4 @@ public class Author {
        }
     }
 
-    public void setBooks(List<Book> books){
-        this.books = books;
-    }
 }

@@ -5,7 +5,6 @@ import com.viscontti.challenge002.dto.BookDTO;
 import com.viscontti.challenge002.model.Author;
 import com.viscontti.challenge002.model.Book;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
