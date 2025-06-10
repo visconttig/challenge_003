@@ -11,7 +11,8 @@ Para obtener la informacion de los libros.
 El método Main debe implementar la interfaz CommandLineRunner y su método run() donde deberás llamar un método para exhibir el menu. En este método, debes crear un bucle para presentar a tu usuario las opciones de insercion y consulta. El usuario deberá seleccionar un número que corresponderá a la opcion numérica y proporcionar los datos que la aplicación recibirá.
 
 ### Required functionality: 
-> This first functionality works fetching data from the REST API, not! from the Database.
+> ⚠️ **Atention:** This first functionality works fetching data from the **REST API**, not! from the Database.
+
 1. Buscar libro por titulo.
 > Search in REST API and save the results to the DB.
 > > Don't allow to save duplicate books ::warning::
@@ -23,7 +24,7 @@ El método Main debe implementar la interfaz CommandLineRunner y su método run(
 > - `Number of Downloads`.
  
 
-> From here onwards, work with the already saved to Database info. 
+> ⚠️ **Atention:** From here onwards, work with the data **already saved** to the Database. 
 2. Listar libros registrados.
 > Same display info as previous one, but for all saved Book entities.
 3. Listar autores registrados.
