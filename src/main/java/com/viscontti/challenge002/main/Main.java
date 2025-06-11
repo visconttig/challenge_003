@@ -1,26 +1,21 @@
 package com.viscontti.challenge002.main;
 
-import com.viscontti.challenge002.service.HTTPService;
+import com.viscontti.challenge002.service.BooksHttpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class Main {
-    private final String URL_BASE = "https://gutendex.com/";
-
-    private final HTTPService httpService;
+    private final BooksHttpService booksHttpService;
 
     @Autowired
-    public Main(HTTPService httpService){
-        this.httpService = httpService;
+    public Main(BooksHttpService booksHttpService){
+       this.booksHttpService = booksHttpService;
     }
 
-    public String getAllBooks(){
-        final String ALL_BOOKS_POSTFIX = "books/";
-        String result = httpService.getHttpData(URL_BASE +
-                ALL_BOOKS_POSTFIX);
-        System.out.printf("Results from main: %s.%n", result);
-
-        return result;
+    public void run(){
+        // for testing
+       booksHttpService.searchBooksByTitle("alice");
     }
+
 }

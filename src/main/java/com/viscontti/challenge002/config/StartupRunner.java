@@ -3,9 +3,10 @@ package com.viscontti.challenge002.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.viscontti.challenge002.dto.BookDTO;
 import com.viscontti.challenge002.dto.GutendexDTO;
+import com.viscontti.challenge002.main.Main;
 import com.viscontti.challenge002.model.Book;
 import com.viscontti.challenge002.service.BooksService;
-import com.viscontti.challenge002.service.HTTPService;
+import com.viscontti.challenge002.service.HttpService;
 import com.viscontti.challenge002.util.BookMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -16,10 +17,10 @@ import java.util.List;
 public class StartupRunner {
 
     @Bean
-    public CommandLineRunner demoData(BooksService booksService){
+    public CommandLineRunner demoData(BooksService booksService,Main main){
         return args -> {
 
-            HTTPService httpService = new HTTPService();
+            HttpService httpService = new HttpService();
             ObjectMapper mapper = new ObjectMapper();
             BookMapper bookMapper = new BookMapper();
 
@@ -30,7 +31,9 @@ public class StartupRunner {
                 Book book = bookMapper.toEntity(bookDTO);
                 booksService.saveBook(book);
             }
-            System.out.println("Books saved.");
+            System.out.println("Database pre-populated with some books.");
+
+           main.run();
 
         };
     }

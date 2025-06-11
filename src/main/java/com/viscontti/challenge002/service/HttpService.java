@@ -10,7 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Service
-public class HTTPService {
+public class HttpService {
 
     public String getHttpData(String url){
        String result = "";
