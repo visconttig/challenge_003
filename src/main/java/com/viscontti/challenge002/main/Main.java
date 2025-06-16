@@ -9,13 +9,14 @@ public class Main {
     private final BooksHttpService booksHttpService;
 
     @Autowired
-    public Main(BooksHttpService booksHttpService){
+    public Main(BooksHttpService booksHttpService,){
        this.booksHttpService = booksHttpService;
     }
 
     public void run(){
         // for testing
-       booksHttpService.searchBooksByTitle("alice");
+//       booksHttpService.searchBooksByTitle("alice");
+
     }
 
 }
