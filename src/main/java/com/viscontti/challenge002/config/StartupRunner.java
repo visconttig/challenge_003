@@ -11,13 +11,16 @@ import com.viscontti.challenge002.util.BookMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+
 import java.util.List;
 
 @Configuration
 public class StartupRunner {
 
+    @Order(1)
     @Bean
-    public CommandLineRunner demoData(BooksService booksService,Main main){
+    public CommandLineRunner demoData(BooksService booksService){
         return args -> {
 
             HttpService httpService = new HttpService();
@@ -31,10 +34,11 @@ public class StartupRunner {
                 Book book = bookMapper.toEntity(bookDTO);
                 booksService.saveBook(book);
             }
-            System.out.println("Database pre-populated with some books.");
 
-           main.run();
+            var separator = "##############################################";
+            System.out.printf("%n%n%s%nDatabase pre-populated with some books.%n%s%n%n", separator, separator);
 
         };
     }
+
 }
