@@ -32,7 +32,7 @@ public class Main implements CommandLineRunner {
     public void run(String... args) throws Exception {
         menu.addOption(new MenuOption(1,
                                       "Search book by title.",
-                                      null));
+                                      this::searchBookByTitle));
         menu.addOption(new MenuOption(2,
                                       "List registered books.",
                                       null));
@@ -57,8 +57,9 @@ public class Main implements CommandLineRunner {
             do {
                 menu.displayMenu();
                 System.out.print("Select an option:\t");
-                selectedOption = Integer.parseInt(sc.nextLine());
+                selectedOption = inputNumber();
                 validateMenuOption(1, 6, selectedOption);
+                executeSelectedOption(selectedOption);
             } while (selectedOption != 6);
                 System.out.println("Exiting app...");
                 System.exit(0);
@@ -77,9 +78,26 @@ public class Main implements CommandLineRunner {
     }
 
 
-    public int inputNumber() {
-        //
-        return -1;
+    public int inputNumber() throws NumberFormatException {
+       return Integer.parseInt(sc.nextLine());
+    }
+
+    public String inputString() {
+        return sc.nextLine();
+    }
+
+    public void executeSelectedOption(int selectedOption){
+       menu.getOptionByNumber(selectedOption).execute();
+    }
+
+    public void searchBookByTitle(){
+        try {
+            System.out.println("Enter a title to search for: ");
+            String title = inputString();
+            System.out.printf("Searching by title: %s...%n%n", title);
+        } catch (Exception e) {
+            System.out.printf("An error occurred:\t%s%n%n", e);
+        }
     }
 
     public void validateMenuOption(int min, int max, int userInput){
