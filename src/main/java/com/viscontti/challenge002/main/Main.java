@@ -1,5 +1,6 @@
 package com.viscontti.challenge002.main;
 
+import com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException;
 import com.viscontti.challenge002.service.BooksHttpService;
 import com.viscontti.challenge002.util.Menu;
 import com.viscontti.challenge002.util.MenuOption;
@@ -16,12 +17,14 @@ public class Main implements CommandLineRunner {
     private final BooksHttpService booksHttpService;
     private final Menu menu;
     int selectedOption = -1;
+    Scanner sc;
 
     @Autowired
     public Main(BooksHttpService booksHttpService,
                 Menu menu){
        this.booksHttpService = booksHttpService;
        this.menu = menu;
+       this.sc = new Scanner(System.in);
     }
 
 
@@ -50,18 +53,37 @@ public class Main implements CommandLineRunner {
     }
 
     public void askMenuOption(){
-        try (Scanner sc = new Scanner(System.in)) {
+        try {
             do {
                 menu.displayMenu();
                 System.out.print("Select an option:\t");
                 selectedOption = sc.nextInt();
+                validateMenuOption(1, 6, selectedOption);
             } while (selectedOption != 6);
+            System.out.println("Exiting app...");
+            System.exit(0);
+        } catch (MenuOptionOutOfBoundsException e){
+            System.out.printf("Error:\t%s.%n", e);
+            System.out.printf("Enter a number between 1 and 6.%n%n");
+            askMenuOption();
         } catch (InputMismatchException e) {
             System.out.printf("Enter a valid number:\t%s", e);
             askMenuOption();
         } catch (Exception e) {
             System.out.printf("An error occurred:\t%s", e);
         }
+    }
+
+
+    public int inputNumber() {
+        //
+        return -1;
+    }
+
+    public void validateMenuOption(int min, int max, int userInput){
+       if((userInput < min) || (userInput > max)){
+           throw new MenuOptionOutOfBoundsException(userInput);
+       }
     }
 }
 
