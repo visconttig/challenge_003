@@ -3,7 +3,6 @@ package com.viscontti.challenge002.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.viscontti.challenge002.dto.BookDTO;
 import com.viscontti.challenge002.dto.GutendexDTO;
-import com.viscontti.challenge002.main.Main;
 import com.viscontti.challenge002.model.Book;
 import com.viscontti.challenge002.service.BooksService;
 import com.viscontti.challenge002.service.HttpService;

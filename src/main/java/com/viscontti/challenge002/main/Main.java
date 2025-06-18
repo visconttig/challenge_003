@@ -57,20 +57,22 @@ public class Main implements CommandLineRunner {
             do {
                 menu.displayMenu();
                 System.out.print("Select an option:\t");
-                selectedOption = sc.nextInt();
+                selectedOption = Integer.parseInt(sc.nextLine());
                 validateMenuOption(1, 6, selectedOption);
             } while (selectedOption != 6);
-            System.out.println("Exiting app...");
-            System.exit(0);
+                System.out.println("Exiting app...");
+                System.exit(0);
         } catch (MenuOptionOutOfBoundsException e){
-            System.out.printf("Error:\t%s.%n", e);
+            System.out.printf("**Error** \t%s%n", e);
             System.out.printf("Enter a number between 1 and 6.%n%n");
             askMenuOption();
-        } catch (InputMismatchException e) {
-            System.out.printf("Enter a valid number:\t%s", e);
+        } catch (NumberFormatException e) {
+            System.out.printf("**Error** Enter a valid number:\t%s.%n%n", e);
             askMenuOption();
         } catch (Exception e) {
-            System.out.printf("An error occurred:\t%s", e);
+            System.out.printf("An error occurred:\t%s.%n%n", e);
+        } finally {
+            sc.close();
         }
     }
 

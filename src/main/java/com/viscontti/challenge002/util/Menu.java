@@ -17,9 +17,12 @@ public class Menu {
     }
 
     public void displayMenu(){
+        String separator = "##############################################";
+        System.out.println(separator);
         for(MenuOption option : options){
             System.out.printf("%d:\t%s%n", option.getNumber(), option.getDescription() );
         }
+        System.out.println(separator);
     }
 
     public MenuOption getOptionByNumber(int number){
