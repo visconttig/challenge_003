@@ -28,7 +28,7 @@ public class BooksHttpService {
         String result;
 
         result = httpService.getHttpData(SEARCH_URL);
-        System.out.printf("Search by title results: %n%n\t\t%s", result);
+        System.out.printf("Search by title results: %n%n\t\t%s...%n%n", result.substring(0, 25));
 
         return result;
      }

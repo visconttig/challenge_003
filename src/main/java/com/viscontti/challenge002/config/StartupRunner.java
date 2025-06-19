@@ -26,16 +26,18 @@ public class StartupRunner {
             ObjectMapper mapper = new ObjectMapper();
             BookMapper bookMapper = new BookMapper();
 
-            String allBooks = httpService.getHttpData("https://gutendex.com/books/");
-            GutendexDTO guten = mapper.readValue(allBooks, GutendexDTO.class);
-            List<BookDTO> books = guten.getResults();
-            for(BookDTO bookDTO : books){
-                Book book = bookMapper.toEntity(bookDTO);
-                booksService.saveBook(book);
-            }
+            System.out.println("Pre-population disabled");
 
-            var separator = "##############################################";
-            System.out.printf("%n%n%s%nDatabase pre-populated with some books.%n%s%n%n", separator, separator);
+//            String allBooks = httpService.getHttpData("https://gutendex.com/books/");
+//            GutendexDTO guten = mapper.readValue(allBooks, GutendexDTO.class);
+//            List<BookDTO> books = guten.getResults();
+//            for(BookDTO bookDTO : books){
+//                Book book = bookMapper.toEntity(bookDTO);
+//                booksService.saveBook(book);
+//            }
+//
+//            var separator = "##############################################";
+//            System.out.printf("%n%n%s%nDatabase pre-populated with some books.%n%s%n%n", separator, separator);
 
         };
     }

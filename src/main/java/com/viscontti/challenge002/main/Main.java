@@ -1,7 +1,13 @@
 package com.viscontti.challenge002.main;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.viscontti.challenge002.dto.BookDTO;
+import com.viscontti.challenge002.dto.GutendexDTO;
 import com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException;
+import com.viscontti.challenge002.model.Book;
 import com.viscontti.challenge002.service.BooksHttpService;
+import com.viscontti.challenge002.service.BooksService;
+import com.viscontti.challenge002.util.BookMapper;
 import com.viscontti.challenge002.util.Menu;
 import com.viscontti.challenge002.util.MenuOption;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Service
 public class Main implements CommandLineRunner {
@@ -18,13 +26,21 @@ public class Main implements CommandLineRunner {
     private final Menu menu;
     int selectedOption = -1;
     Scanner sc;
+    ObjectMapper mapper;
+    BookMapper bookMapper;
+    BooksService booksService;
 
     @Autowired
     public Main(BooksHttpService booksHttpService,
-                Menu menu){
+                Menu menu,
+                BookMapper bookMapper,
+                BooksService booksService){
        this.booksHttpService = booksHttpService;
        this.menu = menu;
        this.sc = new Scanner(System.in);
+       this.mapper = new ObjectMapper();
+       this.bookMapper = bookMapper;
+       this.booksService = booksService;
     }
 
 
@@ -95,6 +111,30 @@ public class Main implements CommandLineRunner {
             System.out.println("Enter a title to search for: ");
             String title = inputString();
             System.out.printf("Searching by title: %s...%n%n", title);
+            String result = booksHttpService.searchBooksByTitle(title);
+            GutendexDTO guten = mapper.readValue(result, GutendexDTO.class);
+            List<BookDTO> books = guten.getResults();
+            if(books.isEmpty()){
+                System.out.printf("No results found for \"%s\".%nTry another search.%n%n",
+                                  title);
+                return;
+            }
+            List<BookDTO> filteredBooksByTitle = books.stream()
+                    .filter((bookDTO -> bookDTO.getTitle().toLowerCase().contains(title.toLowerCase()))).collect(Collectors.toList());
+            List<Book> savedBooks = booksService.getAllBooks();
+            for(BookDTO bookDTO : filteredBooksByTitle ){
+                Book book = bookMapper.toEntity(bookDTO);
+                if(savedBooks.stream()
+                        .anyMatch((book1 -> book1.getName().equalsIgnoreCase(book.getName())))){
+                    System.out.printf("Ingnoring book:\t%s [Already in the database].%n", book.getName());
+                } else {
+                    System.out.printf("Saving book:\t%s - %s...%n",
+                                      book.getName(),
+                                      book.getAuthors().stream().map((author -> author.getName())).collect(Collectors.toList()));
+                    booksService.saveBook(book);
+                }
+            }
+            System.out.println("\n\n");
         } catch (Exception e) {
             System.out.printf("An error occurred:\t%s%n%n", e);
         }

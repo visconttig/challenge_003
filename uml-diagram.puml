@@ -1,0 +1,161 @@
+@startuml
+class com.viscontti.challenge002.util.BookMapper {
++ Book toEntity(BookDTO)
++ Author toEntity(AuthorDTO)
+}
+
+class com.viscontti.challenge002.main.Main {
+- BooksHttpService booksHttpService
+- Menu menu
+~ int selectedOption
+~ Scanner sc
++ <<Create>> Main(BooksHttpService,Menu)
++ void run(String)
++ void askMenuOption()
++ int inputNumber()
++ String inputString()
++ void executeSelectedOption(int)
++ void searchBookByTitle()
++ void validateMenuOption(int,int,int)
+}
+
+
+class com.viscontti.challenge002.service.HttpService {
++ String getHttpData(String)
+}
+
+class com.viscontti.challenge002.config.StartupRunner {
++ CommandLineRunner demoData(BooksService)
+}
+
+class com.viscontti.challenge002.Challenge002Application {
++ {static} void main(String[])
+}
+
+class com.viscontti.challenge002.model.Author {
+- Long id
+- String name
+- int birth_year
+- int death_year
+- List<Book> books
++ Long getId()
++ String getName()
++ void setName(String)
++ int getBirth_year()
++ void setBirth_year(int)
++ int getDeath_year()
++ void setDeath_year(int)
++ void addBook(Book)
+}
+
+
+interface com.viscontti.challenge002.repository.BooksRepository {
+}
+class com.viscontti.challenge002.model.Book {
+- Long id
+- String name
+- List<Author> authors
++ String getName()
++ void setName(String)
++ List<Author> getAuthors()
++ void setAuthors(List<Author>)
++ long getId()
+}
+
+
+class com.viscontti.challenge002.config.AppConfig {
+}
+class com.viscontti.challenge002.dto.GutendexDTO {
+- int count
+- List<BookDTO> results
++ List<BookDTO> getResults()
++ String toString()
+}
+
+
+class com.viscontti.challenge002.service.BooksService {
+- BooksRepository booksRepository
++ <<Create>> BooksService(BooksRepository)
++ List<Book> getAllBooks()
++ void saveBook(Book)
+}
+
+
+class com.viscontti.challenge002.util.Menu {
+- List<MenuOption> options
++ void addOption(MenuOption)
++ void removeOption(int)
++ void displayMenu()
++ MenuOption getOptionByNumber(int)
+}
+
+
+class com.viscontti.challenge002.service.AuthorsService {
+- AuthorsRepository authorsRepository
++ <<Create>> AuthorsService(AuthorsRepository)
++ List<Author> getAllAuthors()
++ void saveAuthor(Author)
+}
+
+
+class com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException {
++ <<Create>> MenuOptionOutOfBoundsException(int)
+}
+
+class com.viscontti.challenge002.service.BooksHttpService {
+- String BASE_URL
+- HttpService httpService
++ <<Create>> BooksHttpService(HttpService)
++ String getAllBooks()
++ String searchBooksByTitle(String)
+}
+
+
+interface com.viscontti.challenge002.repository.AuthorsRepository {
+}
+class com.viscontti.challenge002.util.MenuOption {
+- Integer number
+- String description
+- Runnable action
++ <<Create>> MenuOption(Integer,String,Runnable)
++ int getNumber()
++ String getDescription()
++ Runnable getAction()
++ void execute()
+}
+
+
+class com.viscontti.challenge002.dto.AuthorDTO {
+- String name
+- int birth_year
+- int death_year
++ String getName()
++ int getBirth_year()
++ int getDeath_year()
+}
+
+
+class com.viscontti.challenge002.dto.BookDTO {
+- int id
+- String title
+- List<AuthorDTO> authors
+- List<String> summaries
+- List<String> subjects
+- int download_count
++ int getId()
++ String getTitle()
++ void setTitle(String)
++ List<AuthorDTO> getAuthors()
++ List<String> getSummaries()
++ List<String> getSubjects()
++ int getDownload_count()
+}
+
+
+
+
+org.springframework.boot.CommandLineRunner <|.. com.viscontti.challenge002.main.Main
+org.springframework.data.jpa.repository.JpaRepository <|-- com.viscontti.challenge002.repository.BooksRepository
+com.viscontti.challenge002.exception.RuntimeException <|-- com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException
+org.springframework.data.jpa.repository.JpaRepository <|-- com.viscontti.challenge002.repository.AuthorsRepository
+@enduml
