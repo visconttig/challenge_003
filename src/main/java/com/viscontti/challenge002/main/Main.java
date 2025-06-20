@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.viscontti.challenge002.dto.BookDTO;
 import com.viscontti.challenge002.dto.GutendexDTO;
 import com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException;
+import com.viscontti.challenge002.model.Author;
 import com.viscontti.challenge002.model.Book;
+import com.viscontti.challenge002.service.AuthorsService;
 import com.viscontti.challenge002.service.BooksHttpService;
 import com.viscontti.challenge002.service.BooksService;
 import com.viscontti.challenge002.util.BookMapper;
@@ -14,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -29,18 +29,21 @@ public class Main implements CommandLineRunner {
     ObjectMapper mapper;
     BookMapper bookMapper;
     BooksService booksService;
+    AuthorsService authorsService;
 
     @Autowired
     public Main(BooksHttpService booksHttpService,
                 Menu menu,
                 BookMapper bookMapper,
-                BooksService booksService){
+                BooksService booksService,
+                AuthorsService authorsService){
        this.booksHttpService = booksHttpService;
        this.menu = menu;
        this.sc = new Scanner(System.in);
        this.mapper = new ObjectMapper();
        this.bookMapper = bookMapper;
        this.booksService = booksService;
+       this.authorsService = authorsService;
     }
 
 
@@ -57,7 +60,7 @@ public class Main implements CommandLineRunner {
                                       null));
         menu.addOption(new MenuOption(4,
                                       "List alive authors in a given year.",
-                                      null));
+                                      () -> listAliveAuthors()));
         menu.addOption(new MenuOption(5,
                                       "List books by language.",
                                       null));
@@ -140,10 +143,35 @@ public class Main implements CommandLineRunner {
         }
     }
 
+    public void listAliveAuthors(){
+        System.out.println("Enter a year:\t");
+        int year = inputNumber();
+        List<Author> authors = authorsService.findByAliveInYear(year);
+        if(!authors.isEmpty()){
+            printMessage(String.format("Alive authors in that year:%n\t"));
+            for(Author author : authors){
+                printMessage(String.format("\tName: %s%n" +
+                                                   "\t\t- Birth Date: %d%n" +
+                                                   "\t\t- Death Date: %d%n",
+                                           author.getName(),
+                                           author.getBirthYear(),
+                                           author.getDeathYear()));//,
+//                                           author.getAllBooks()));
+            }
+        } else {
+            printMessage(String.format("No authors alive found in that year:\t%d.%n%n",
+                                       year));
+        }
+    }
+
     public void validateMenuOption(int min, int max, int userInput){
        if((userInput < min) || (userInput > max)){
            throw new MenuOptionOutOfBoundsException(userInput);
        }
+    }
+
+    public void printMessage(String message){
+        System.out.println(message);
     }
 }
 

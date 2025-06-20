@@ -22,4 +22,8 @@ public class AuthorsService {
     public void saveAuthor(Author author){
         authorsRepository.save(author);
     }
+
+    public List<Author> findByAliveInYear(Integer year){
+       return authorsRepository.findAuthorsAliveInYear(year);
+    }
 }

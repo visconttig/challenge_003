@@ -31,8 +31,8 @@ public class BookMapper {
     public Author toEntity(AuthorDTO authorDTO){
         Author author = new Author();
         author.setName(authorDTO.getName());
-        author.setBirth_year(authorDTO.getBirth_year());
-        author.setDeath_year(authorDTO.getDeath_year());
+        author.setBirthYear(authorDTO.getBirthYear());
+        author.setDeathYear(authorDTO.getDeathYear());
         return author;
     }
 }

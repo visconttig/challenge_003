@@ -10,8 +10,8 @@ public class Author {
     @Id
     private Long id;
     private String name;
-    private int birth_year;
-    private int death_year;
+    private int birthYear;
+    private int deathYear;
     @ManyToMany(mappedBy = "authors")
     private List<Book> books = new ArrayList<>();
 
@@ -28,20 +28,20 @@ public class Author {
     }
 
 
-    public int getBirth_year() {
-        return birth_year;
+    public int getBirthYear() {
+        return birthYear;
     }
 
-    public void setBirth_year(int birth_year){
-        this.birth_year = birth_year;
+    public void setBirthYear(int birthYear){
+        this.birthYear = birthYear;
     }
 
-    public int getDeath_year() {
-        return death_year;
+    public int getDeathYear() {
+        return deathYear;
     }
 
-    public void setDeath_year(int death_year){
-        this.death_year = death_year;
+    public void setDeathYear(int deathYear){
+        this.deathYear = deathYear;
     }
 
     public void addBook(Book book) {
@@ -50,4 +50,7 @@ public class Author {
        }
     }
 
+    public List<Book> getAllBooks() {
+        return books;
+    }
 }
