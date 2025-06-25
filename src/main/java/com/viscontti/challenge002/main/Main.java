@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 @Service
 public class Main implements CommandLineRunner {
@@ -54,13 +53,13 @@ public class Main implements CommandLineRunner {
                                       this::searchBookByTitle));
         menu.addOption(new MenuOption(2,
                                       "List registered books.",
-                                      null));
+                                      this::listAllBooks));
         menu.addOption(new MenuOption(3,
                                       "List registered authors.",
                                       null));
         menu.addOption(new MenuOption(4,
                                       "List alive authors in a given year.",
-                                      () -> listAliveAuthors()));
+                                      this::listAliveAuthors));
         menu.addOption(new MenuOption(5,
                                       "List books by language.",
                                       null));
@@ -77,8 +76,9 @@ public class Main implements CommandLineRunner {
                 menu.displayMenu();
                 System.out.print("Select an option:\t");
                 selectedOption = inputNumber();
-                validateMenuOption(1, 6, selectedOption);
-                executeSelectedOption(selectedOption);
+                if(menu.validateMenuOption(selectedOption)){
+                    executeSelectedOption(selectedOption);
+                }
             } while (selectedOption != 6);
                 System.out.println("Exiting app...");
                 System.exit(0);
@@ -123,17 +123,21 @@ public class Main implements CommandLineRunner {
                 return;
             }
             List<BookDTO> filteredBooksByTitle = books.stream()
-                    .filter((bookDTO -> bookDTO.getTitle().toLowerCase().contains(title.toLowerCase()))).collect(Collectors.toList());
+                    .filter((bookDTO -> bookDTO.getTitle()
+                            .toLowerCase()
+                            .contains(title.toLowerCase())))
+                    .toList();
             List<Book> savedBooks = booksService.getAllBooks();
             for(BookDTO bookDTO : filteredBooksByTitle ){
                 Book book = bookMapper.toEntity(bookDTO);
                 if(savedBooks.stream()
-                        .anyMatch((book1 -> book1.getName().equalsIgnoreCase(book.getName())))){
-                    System.out.printf("Ingnoring book:\t%s [Already in the database].%n", book.getName());
+                        .anyMatch((book1 -> book1.getName()
+                                .equalsIgnoreCase(book.getName())))){
+                    System.out.print("Ingnoring book [Already in the database]:%n");
+                    booksService.printBookInfo(book);
                 } else {
-                    System.out.printf("Saving book:\t%s - %s...%n",
-                                      book.getName(),
-                                      book.getAuthors().stream().map((author -> author.getName())).collect(Collectors.toList()));
+                    System.out.print("Saving book: ");
+                    booksService.printBookInfo(book);
                     booksService.saveBook(book);
                 }
             }
@@ -146,33 +150,25 @@ public class Main implements CommandLineRunner {
     public void listAliveAuthors(){
         System.out.println("Enter a year:\t");
         int year = inputNumber();
+        System.out.printf("%n%n");
         List<Author> authors = authorsService.findByAliveInYear(year);
         if(!authors.isEmpty()){
             printMessage(String.format("Alive authors in that year:%n\t"));
-            for(Author author : authors){
-                printMessage(String.format("\tName: %s%n" +
-                                                   "\t\t- Birth Date: %d%n" +
-                                                   "\t\t- Death Date: %d%n",
-                                           author.getName(),
-                                           author.getBirthYear(),
-                                           author.getDeathYear()));//,
-//                                           author.getAllBooks()));
-            }
+            authorsService.printAllAuthors(authors);
         } else {
             printMessage(String.format("No authors alive found in that year:\t%d.%n%n",
                                        year));
         }
     }
 
-    public static void validateMenuOption(int min, int max, int userInput){
-       if((userInput < min) || (userInput > max)){
-           throw new MenuOptionOutOfBoundsException(userInput);
-       }
-    }
-
-    public void printMessage(String message){
+    public static void printMessage(String message){
         System.out.println(message);
     }
+
+    public void listAllBooks(){
+        booksService.printAllBooks();
+    }
+
 }
 
 

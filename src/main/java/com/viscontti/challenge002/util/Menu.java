@@ -1,5 +1,6 @@
 package com.viscontti.challenge002.util;
 
+import com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,14 @@ public class Menu {
                 .filter(opt -> opt.getNumber() == number)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Boolean validateMenuOption(int input){
+        if((input < 1) || (input > options.size())){
+            throw new MenuOptionOutOfBoundsException(input);
+        } else {
+            return true;
+        }
     }
 
 }
