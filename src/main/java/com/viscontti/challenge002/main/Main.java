@@ -56,7 +56,7 @@ public class Main implements CommandLineRunner {
                                       this::listAllBooks));
         menu.addOption(new MenuOption(3,
                                       "List registered authors.",
-                                      null));
+                                      this::listAllAuthors));
         menu.addOption(new MenuOption(4,
                                       "List alive authors in a given year.",
                                       this::listAliveAuthors));
@@ -133,7 +133,7 @@ public class Main implements CommandLineRunner {
                 if(savedBooks.stream()
                         .anyMatch((book1 -> book1.getName()
                                 .equalsIgnoreCase(book.getName())))){
-                    System.out.print("Ingnoring book [Already in the database]:%n");
+                    System.out.print("Ingnoring book [Already in the database]:\n");
                     booksService.printBookInfo(book);
                 } else {
                     System.out.print("Saving book: ");
@@ -166,7 +166,17 @@ public class Main implements CommandLineRunner {
     }
 
     public void listAllBooks(){
+        System.out.print("\n\n*** Books: \n");
         booksService.printAllBooks();
+    }
+
+    public void listAllAuthors(){
+        System.out.print("\n\n*** Authors: \n");
+        var authors = authorsService.getAllAuthors()
+                        .stream()
+                                .distinct()
+                                        .toList();
+        authorsService.printAllAuthors(authors);
     }
 
 }

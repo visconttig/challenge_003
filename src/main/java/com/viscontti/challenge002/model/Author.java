@@ -12,7 +12,8 @@ public class Author {
     private String name;
     private int birthYear;
     private int deathYear;
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany(mappedBy = "authors",
+    fetch = FetchType.EAGER)
     private List<Book> books = new ArrayList<>();
 
     public Long getId() {

@@ -32,10 +32,18 @@ public class AuthorsService {
         for(Author author : authors){
             Main.printMessage(String.format("\tName: %s%n" +
                                                "\t\t- Birth Date: %d%n" +
-                                               "\t\t- Death Date: %d%n",
+                                               "\t\t- Death Date: %d%n" +
+                                            "\t\t- Books: %s%n%n",
                                             author.getName(),
                                             author.getBirthYear(),
-                                            author.getDeathYear()));
+                                            author.getDeathYear(),
+                                            author.getAllBooks()
+                                                    .stream()
+                                                    .map((book -> {
+                                                      return   book.getName();
+                                                    }))
+                                                    .sorted()
+                                                    .toList()));
         }
     }
 }

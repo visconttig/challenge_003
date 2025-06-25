@@ -12,13 +12,16 @@ public class Book {
     private Long id;
     @Column(length = 500)
     private String name;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+    fetch = FetchType.EAGER)
     @JoinTable(
             name = "book_author",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
     private List<Author> authors;
+
+    private List<String> languages;
 
     public String getName() {
         return name;
@@ -34,6 +37,14 @@ public class Book {
 
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
+    }
+
+    public void setLanguages(List<String> languages){
+        this.languages = languages;
+    }
+
+    public List<String> getLanguages(){
+        return languages;
     }
 
     public long getId() {

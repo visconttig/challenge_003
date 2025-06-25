@@ -11,6 +11,7 @@ public class BookDTO {
 
     private List<String> summaries;
     private List<String> subjects;
+    private List<String> languages;
 
     private int download_count;
 
@@ -22,9 +23,6 @@ public class BookDTO {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public List<AuthorDTO> getAuthors() {
         return authors;
@@ -38,6 +36,11 @@ public class BookDTO {
 
     public List<String> getSubjects() {
         return subjects;
+    }
+
+
+    public List<String> getLanguages(){
+        return languages;
     }
 
 
