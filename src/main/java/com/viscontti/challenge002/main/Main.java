@@ -164,7 +164,7 @@ public class Main implements CommandLineRunner {
         }
     }
 
-    public void validateMenuOption(int min, int max, int userInput){
+    public static void validateMenuOption(int min, int max, int userInput){
        if((userInput < min) || (userInput > max)){
            throw new MenuOptionOutOfBoundsException(userInput);
        }
