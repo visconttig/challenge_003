@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AuthorsRepository extends JpaRepository<Author, Long> {
+public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     @Query("SELECT DISTINCT a FROM Author a WHERE (a.birthYear < ?1) AND (a.deathYear > ?1 OR a.deathYear IS NULL)")
     public List<Author> findAuthorsAliveInYear(Integer year);

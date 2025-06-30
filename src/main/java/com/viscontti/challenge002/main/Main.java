@@ -12,6 +12,7 @@ import com.viscontti.challenge002.service.BooksService;
 import com.viscontti.challenge002.util.BookMapper;
 import com.viscontti.challenge002.util.Menu;
 import com.viscontti.challenge002.util.MenuOption;
+import com.viscontti.challenge002.util.ConsolePrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -74,17 +75,18 @@ public class Main implements CommandLineRunner {
         try {
             do {
                 menu.displayMenu();
-                System.out.print("Select an option:\t");
+                ConsolePrinter.printLine("Select an option:\t");
                 selectedOption = inputNumber();
                 if(menu.validateMenuOption(selectedOption)){
                     executeSelectedOption(selectedOption);
                 }
             } while (selectedOption != 6);
-                System.out.println("Exiting app...");
+                ConsolePrinter.printLineBreak("Exiting app...");
                 System.exit(0);
         } catch (MenuOptionOutOfBoundsException e){
             System.out.printf("**Error** \t%s%n", e);
-            System.out.printf("Enter a number between 1 and 6.%n%n");
+            System.out.printf("Enter a number between 1 and %s.%n%n",
+                              menu.getSize());
             askMenuOption();
         } catch (NumberFormatException e) {
             System.out.printf("**Error** Enter a valid number:\t%s.%n%n", e);
@@ -141,7 +143,10 @@ public class Main implements CommandLineRunner {
                     booksService.saveBook(book);
                 }
             }
-            System.out.println("\n\n");
+
+            ConsolePrinter.printHeader("Stored Books");
+            booksService.printAllBooks();
+            ConsolePrinter.printFormatted("%n%n");
         } catch (Exception e) {
             System.out.printf("An error occurred:\t%s%n%n", e);
         }
@@ -171,7 +176,7 @@ public class Main implements CommandLineRunner {
     }
 
     public void listAllAuthors(){
-        System.out.print("\n\n*** Authors: \n");
+        ConsolePrinter.printHeader("Authors");
         var authors = authorsService.getAllAuthors()
                         .stream()
                                 .distinct()

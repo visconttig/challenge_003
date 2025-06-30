@@ -33,6 +33,10 @@ public class Menu {
                 .orElse(null);
     }
 
+    public int getSize(){
+        return options.size();
+    }
+
     public Boolean validateMenuOption(int input){
         if((input < 1) || (input > options.size())){
             throw new MenuOptionOutOfBoundsException(input);

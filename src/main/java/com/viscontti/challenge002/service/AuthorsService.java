@@ -1,36 +1,36 @@
 package com.viscontti.challenge002.service;
 
-import com.viscontti.challenge002.main.Main;
 import com.viscontti.challenge002.model.Author;
-import com.viscontti.challenge002.repository.AuthorsRepository;
+import com.viscontti.challenge002.repository.AuthorRepository;
+import com.viscontti.challenge002.util.ConsolePrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class AuthorsService {
-    private final AuthorsRepository authorsRepository;
+    private final AuthorRepository authorRepository;
 
     @Autowired
-    public AuthorsService(AuthorsRepository authorsRepository){
-        this.authorsRepository = authorsRepository;
+    public AuthorsService(AuthorRepository authorRepository){
+        this.authorRepository = authorRepository;
     }
 
     public List<Author> getAllAuthors(){
-        return authorsRepository.findAll();
+        return authorRepository.findAll();
     }
 
     public void saveAuthor(Author author){
-        authorsRepository.save(author);
+        authorRepository.save(author);
     }
 
     public List<Author> findByAliveInYear(Integer year){
-       return authorsRepository.findAuthorsAliveInYear(year);
+       return authorRepository.findAuthorsAliveInYear(year);
     }
 
     public void printAllAuthors(List<Author> authors){
         for(Author author : authors){
-            Main.printMessage(String.format("\tName: %s%n" +
+            ConsolePrinter.printFormatted("\tName: %s%n" +
                                                "\t\t- Birth Date: %d%n" +
                                                "\t\t- Death Date: %d%n" +
                                             "\t\t- Books: %s%n%n",
@@ -43,7 +43,7 @@ public class AuthorsService {
                                                       return   book.getName();
                                                     }))
                                                     .sorted()
-                                                    .toList()));
+                                                    .toList());
         }
     }
 }

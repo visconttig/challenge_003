@@ -10,7 +10,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 500)
+    @Column(length = 3000)
     private String name;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
     fetch = FetchType.EAGER)
@@ -21,7 +21,14 @@ public class Book {
     )
     private List<Author> authors;
 
-    private List<String> languages;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+    fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "book_language",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
+    )
+    private List<Language> languages;
 
     public String getName() {
         return name;
@@ -39,11 +46,11 @@ public class Book {
         this.authors = authors;
     }
 
-    public void setLanguages(List<String> languages){
+    public void setLanguages(List<Language> languages){
         this.languages = languages;
     }
 
-    public List<String> getLanguages(){
+    public List<Language> getLanguages(){
         return languages;
     }
 

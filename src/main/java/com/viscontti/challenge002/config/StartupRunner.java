@@ -7,6 +7,7 @@ import com.viscontti.challenge002.model.Book;
 import com.viscontti.challenge002.service.BooksService;
 import com.viscontti.challenge002.service.HttpService;
 import com.viscontti.challenge002.util.BookMapper;
+import com.viscontti.challenge002.util.ConsolePrinter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +20,11 @@ public class StartupRunner {
 
     @Order(1)
     @Bean
-    public CommandLineRunner demoData(BooksService booksService){
+    public CommandLineRunner demoData(BooksService booksService,
+                                      BookMapper bookMapper,
+                                      ObjectMapper mapper,
+                                      HttpService httpService){
         return args -> {
-
-            HttpService httpService = new HttpService();
-            ObjectMapper mapper = new ObjectMapper();
-            BookMapper bookMapper = new BookMapper();
-
-//            System.out.println("Pre-population disabled");
 
             String allBooks = httpService.getHttpData("https://gutendex.com/books/");
             GutendexDTO guten = mapper.readValue(allBooks, GutendexDTO.class);
@@ -36,8 +34,9 @@ public class StartupRunner {
                 booksService.saveBook(book);
             }
 
-            var separator = "##############################################";
-            System.out.printf("%n%n%s%nDatabase pre-populated with some books.%n%s%n%n", separator, separator);
+            ConsolePrinter.printFormatted("%n%n%s%nDatabase pre-populated with some books.%n%s%n%n",
+                                          ConsolePrinter.printSeparator(),
+                                          ConsolePrinter.printSeparator());
 
         };
     }

@@ -1,9 +1,9 @@
 package com.viscontti.challenge002.util;
 
 public class MenuOption {
-    private Integer number;
-    private String description;
-    private Runnable action;
+    private final Integer number;
+    private final String description;
+    private final Runnable action;
 
     public MenuOption(Integer number,
                       String description,
