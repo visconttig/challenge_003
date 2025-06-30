@@ -14,6 +14,10 @@ public class Language {
     nullable = false)
     private String languageCode;
 
+    public Language(){
+
+    }
+
     public Language(String languageCode){
         this.languageCode = languageCode;
     }

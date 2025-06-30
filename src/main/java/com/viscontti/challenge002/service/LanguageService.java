@@ -19,4 +19,9 @@ public class LanguageService {
     public Optional<Language> findByLanguageCode(String languageCode){
         return languageRepository.findByLanguageCode(languageCode);
     }
+
+    public Language findOrCreateLanguage(String languageCode){
+        return languageRepository.findByLanguageCode(languageCode)
+                .orElseGet(() -> languageRepository.save(new Language(languageCode)));
+    }
 }

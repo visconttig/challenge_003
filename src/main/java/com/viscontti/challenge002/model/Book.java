@@ -21,7 +21,7 @@ public class Book {
     )
     private List<Author> authors;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+    @ManyToMany(cascade = {CascadeType.MERGE},
     fetch = FetchType.EAGER)
     @JoinTable(
             name = "book_language",

@@ -37,10 +37,8 @@ public class BookMapper {
                 .getLanguages()
                         .stream()
                                 .map((language) -> {
-                                    return languageService.findByLanguageCode(language)
-                                            .orElse(new Language(language));
-                                })
-                                        .collect(Collectors.toList());
+                                    return languageService.findOrCreateLanguage(language);
+                                }).collect(Collectors.toList());
 
         book.setLanguages(languages);
 
