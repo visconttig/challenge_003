@@ -1,15 +1,21 @@
 package com.viscontti.challenge002;
 
+import com.viscontti.challenge002.config.StartupRunner;
 import com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException;
 import com.viscontti.challenge002.main.Main;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import com.viscontti.challenge002.util.Menu;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.test.context.ContextConfiguration;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@ContextConfiguration(classes = {Menu.class})
+@ComponentScan(excludeFilters = {
+		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Main.class),
+		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = StartupRunner.class)
+})
 class Challenge002ApplicationTests {
 
 	@Test
@@ -18,9 +24,11 @@ class Challenge002ApplicationTests {
 
 	@Test
 	void testMenuValidatorGivenOutOfBoundsShouldThrow(){
+		Menu menu = new Menu();
 		var input = 99;
+
 		assertThrows(MenuOptionOutOfBoundsException.class, () -> {
-			Main.validateMenuOption(1, 6, input);
+		menu.validateMenuOption(input);
 		} );
 	}
 }

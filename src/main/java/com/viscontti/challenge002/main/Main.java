@@ -14,12 +14,15 @@ import com.viscontti.challenge002.util.Menu;
 import com.viscontti.challenge002.util.MenuOption;
 import com.viscontti.challenge002.util.ConsolePrinter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Profile("cli")
 @Service
 public class Main implements CommandLineRunner {
     private final BooksHttpService booksHttpService;
@@ -30,6 +33,9 @@ public class Main implements CommandLineRunner {
     BookMapper bookMapper;
     BooksService booksService;
     AuthorsService authorsService;
+
+    @Value("${cli.enabled:true}")
+    private boolean cliEnabled;
 
     @Autowired
     public Main(BooksHttpService booksHttpService,
@@ -49,6 +55,11 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        if(!cliEnabled){
+            return;
+        }
+
         menu.addOption(new MenuOption(1,
                                       "Search book by title.",
                                       this::searchBookByTitle));
@@ -63,7 +74,7 @@ public class Main implements CommandLineRunner {
                                       this::listAliveAuthors));
         menu.addOption(new MenuOption(5,
                                       "List books by language.",
-                                      null));
+                                      () -> this.listBooksByLanguage()));
         menu.addOption(new MenuOption(6,
                                       "EXIT.",
                                       null));
@@ -185,7 +196,9 @@ public class Main implements CommandLineRunner {
     }
 
     public void listBooksByLanguage(){
-        //
+        final String TEST_LANGUAGE = "en";
+
+        ConsolePrinter.printFormatted("Searching by language...%n%n");
     }
 
 }
