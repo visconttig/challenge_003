@@ -6,6 +6,7 @@ import com.viscontti.challenge002.dto.GutendexDTO;
 import com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException;
 import com.viscontti.challenge002.model.Author;
 import com.viscontti.challenge002.model.Book;
+import com.viscontti.challenge002.model.Language;
 import com.viscontti.challenge002.service.AuthorsService;
 import com.viscontti.challenge002.service.BooksHttpService;
 import com.viscontti.challenge002.service.BooksService;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 @Profile("cli")
@@ -199,6 +201,9 @@ public class Main implements CommandLineRunner {
         final String TEST_LANGUAGE = "en";
 
         ConsolePrinter.printFormatted("Searching by language...%n%n");
+        List<Book> books = booksService.getBooksByLanguage(TEST_LANGUAGE);
+        ConsolePrinter.printHeader(String.format("'%s' books ", TEST_LANGUAGE));
+        booksService.printAllBooks(books);
     }
 
 }

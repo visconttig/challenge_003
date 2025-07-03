@@ -23,6 +23,10 @@ public class BooksService {
         return bookRepository.findAll();
     }
 
+    public List<Book> getBooksByLanguage(String languageCode){
+        return bookRepository.findByLanguageCode(languageCode);
+    }
+
     public void saveBook(Book book){
         bookRepository.save(book);
     }
