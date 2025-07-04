@@ -1,6 +1,5 @@
 package com.viscontti.challenge002.util;
 
-import java.util.NoSuchElementException;
 
 public class ConsolePrinter {
 

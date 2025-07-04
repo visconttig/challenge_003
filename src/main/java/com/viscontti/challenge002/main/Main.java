@@ -16,7 +16,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -73,7 +72,7 @@ public class Main implements CommandLineRunner {
                                       this::listAliveAuthors));
         menu.addOption(new MenuOption(5,
                                       "List books by language.",
-                                      () -> this.listBooksByLanguage()));
+                                      this::listBooksByLanguage));
         menu.addOption(new MenuOption(6,
                                       "EXIT.",
                                       null));

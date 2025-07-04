@@ -5,6 +5,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: bookdb
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: bookdb
+      DB_USER: user
+      DB_PASSWORD: password
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -14,8 +31,30 @@ jobs:
         with:
           java-version: "21"
           distribution: "temurin"
-          architecture: x64
           cache: maven
 
-      - name: Run tests with Maven
-        run: mvn clean test
+      - name: Make mvnw executable 🛠️
+        run: chmod +x ./mvnw
+
+      - name: Build project (skip tests)
+        run: ./mvnw clean package -DskipTests
+
+      - name: Run Unit Tests
+        run: ./mvnw test
+
+      - name: SetUp Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker build -t book-cli-app .
+
+      - name: Start services with Docker Compose
+        run: docker-compose up -d
+
+      - name: Stop Docker containers
+        if: always()
+        run: docker-compose down
+
+
+
+
