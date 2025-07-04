@@ -1,5 +1,7 @@
 package com.viscontti.challenge002.util;
 
+import java.util.NoSuchElementException;
+
 public class ConsolePrinter {
 
     public static String printSeparator(){
@@ -29,4 +31,7 @@ public class ConsolePrinter {
     }
 
 
+    public static void printError(Exception e) {
+        printFormatted("An error occurred:\t%s.%n", e);
+    }
 }

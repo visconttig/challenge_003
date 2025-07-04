@@ -6,22 +6,19 @@ import com.viscontti.challenge002.dto.GutendexDTO;
 import com.viscontti.challenge002.exception.MenuOptionOutOfBoundsException;
 import com.viscontti.challenge002.model.Author;
 import com.viscontti.challenge002.model.Book;
-import com.viscontti.challenge002.model.Language;
 import com.viscontti.challenge002.service.AuthorsService;
 import com.viscontti.challenge002.service.BooksHttpService;
 import com.viscontti.challenge002.service.BooksService;
-import com.viscontti.challenge002.util.BookMapper;
-import com.viscontti.challenge002.util.Menu;
-import com.viscontti.challenge002.util.MenuOption;
-import com.viscontti.challenge002.util.ConsolePrinter;
+import com.viscontti.challenge002.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 @Profile("cli")
@@ -89,7 +86,7 @@ public class Main implements CommandLineRunner {
             do {
                 menu.displayMenu();
                 ConsolePrinter.printLine("Select an option:\t");
-                selectedOption = inputNumber();
+                selectedOption = InputHelper.getInputNumber(sc);
                 if(menu.validateMenuOption(selectedOption)){
                     executeSelectedOption(selectedOption);
                 }
@@ -97,27 +94,18 @@ public class Main implements CommandLineRunner {
                 ConsolePrinter.printLineBreak("Exiting app...");
                 System.exit(0);
         } catch (MenuOptionOutOfBoundsException e){
-            System.out.printf("**Error** \t%s%n", e);
-            System.out.printf("Enter a number between 1 and %s.%n%n",
-                              menu.getSize());
+            ConsolePrinter.printFormatted("**Error** \t%s%n", e);
+            ConsolePrinter.printFormatted("Enter a number between 1 and %s.%n%n",
+                                          menu.getSize());
             askMenuOption();
         } catch (NumberFormatException e) {
-            System.out.printf("**Error** Enter a valid number:\t%s.%n%n", e);
+            ConsolePrinter.printFormatted("**Error** Enter a valid number:\t%s.%n%n", e);
             askMenuOption();
         } catch (Exception e) {
-            System.out.printf("An error occurred:\t%s.%n%n", e);
+            ConsolePrinter.printFormatted("An error occurred:\t%s.%n%n", e);
         } finally {
             sc.close();
         }
-    }
-
-
-    public int inputNumber() throws NumberFormatException {
-       return Integer.parseInt(sc.nextLine());
-    }
-
-    public String inputString() {
-        return sc.nextLine();
     }
 
     public void executeSelectedOption(int selectedOption){
@@ -126,15 +114,15 @@ public class Main implements CommandLineRunner {
 
     public void searchBookByTitle(){
         try {
-            System.out.println("Enter a title to search for: ");
-            String title = inputString();
-            System.out.printf("Searching by title: %s...%n%n", title);
+            ConsolePrinter.printLine("Enter a title to search for:\t");
+            String title = InputHelper.getInputString(sc);
+            ConsolePrinter.printFormatted("Searching by title: %s...%n%n", title);
             String result = booksHttpService.searchBooksByTitle(title);
             GutendexDTO guten = mapper.readValue(result, GutendexDTO.class);
             List<BookDTO> books = guten.getResults();
             if(books.isEmpty()){
-                System.out.printf("No results found for \"%s\".%nTry another search.%n%n",
-                                  title);
+                ConsolePrinter.printFormatted("No results found for \"%s\".%nTry another search.%n%n",
+                                              title);
                 return;
             }
             List<BookDTO> filteredBooksByTitle = books.stream()
@@ -148,10 +136,10 @@ public class Main implements CommandLineRunner {
                 if(savedBooks.stream()
                         .anyMatch((book1 -> book1.getName()
                                 .equalsIgnoreCase(book.getName())))){
-                    System.out.print("Ingnoring book [Already in the database]:\n");
+                    ConsolePrinter.printFormatted("Ingnoring book [Already in the database]:\n");
                     booksService.printBookInfo(book);
                 } else {
-                    System.out.print("Saving book: ");
+                    ConsolePrinter.printLine("Saving book:\t");
                     booksService.printBookInfo(book);
                     booksService.saveBook(book);
                 }
@@ -161,30 +149,25 @@ public class Main implements CommandLineRunner {
             booksService.printAllBooks();
             ConsolePrinter.printFormatted("%n%n");
         } catch (Exception e) {
-            System.out.printf("An error occurred:\t%s%n%n", e);
+            ConsolePrinter.printFormatted("An error occurred:\t%s%n%n", e);
         }
     }
 
     public void listAliveAuthors(){
-        System.out.println("Enter a year:\t");
-        int year = inputNumber();
-        System.out.printf("%n%n");
+        ConsolePrinter.printLine("Enter a year: \t");
+        int year = InputHelper.getInputNumber(sc);
+        ConsolePrinter.printFormatted("%n%n");
         List<Author> authors = authorsService.findByAliveInYear(year);
         if(!authors.isEmpty()){
-            printMessage(String.format("Alive authors in that year:%n\t"));
+            ConsolePrinter.printFormatted("Alive authors in that year:%n\\t");
             authorsService.printAllAuthors(authors);
         } else {
-            printMessage(String.format("No authors alive found in that year:\t%d.%n%n",
-                                       year));
+            ConsolePrinter.printFormatted("No authors alive found in that year:\\t%d.%n%n", year);
         }
     }
 
-    public static void printMessage(String message){
-        System.out.println(message);
-    }
-
     public void listAllBooks(){
-        System.out.print("\n\n*** Books: \n");
+        ConsolePrinter.printHeader("Books:");
         booksService.printAllBooks();
     }
 
@@ -198,12 +181,53 @@ public class Main implements CommandLineRunner {
     }
 
     public void listBooksByLanguage(){
-        final String TEST_LANGUAGE = "en";
+        String searchedLanguage = null;
 
-        ConsolePrinter.printFormatted("Searching by language...%n%n");
-        List<Book> books = booksService.getBooksByLanguage(TEST_LANGUAGE);
-        ConsolePrinter.printHeader(String.format("'%s' books ", TEST_LANGUAGE));
-        booksService.printAllBooks(books);
+        while (true){
+            try {
+                ConsolePrinter.printHeader("*** Language Codes ***");
+                ConsolePrinter.printFormatted("""
++------------+--------------------+
+| Language   | Code               |
++------------+--------------------+
+| English    | en                 |
+| Spanish    | es                 |
+| French     | fr                 |
+| German     | de                 |
+| Italian    | it                 |
+| Portuguese | pt                 |
+| Russian    | ru                 |
+| Chinese    | zh                 |
+| Japanese   | ja                 |
+| Arabic     | ar                 |
++------------+--------------------+
+""");
+                ConsolePrinter.printLine("Enter a language code (ex: 'fr', 'en', etc):\t");
+                if(sc.hasNextLine()){
+                    searchedLanguage = InputHelper.getInputString(sc);
+                    if((searchedLanguage == null) || (searchedLanguage.isBlank())){
+                        ConsolePrinter.printFormatted("Invalid input. Please try again.%n%n");
+                        continue;
+                    }
+                }
+
+                ConsolePrinter.printFormatted("Searching by language...%n%n");
+                List<Book> books = booksService.getBooksByLanguage(searchedLanguage);
+                if(!(books.isEmpty())){
+                    ConsolePrinter.printHeader(String.format("'%s' books ", searchedLanguage));
+                    booksService.printAllBooks(books);
+                } else {
+                    ConsolePrinter.printFormatted("No books found for '%s' language code.%n%n",
+                                                  searchedLanguage);
+                }
+
+                break;
+
+            } catch (NoSuchElementException e){
+                ConsolePrinter.printError(e);
+            }
+        }
+
     }
 
 }
