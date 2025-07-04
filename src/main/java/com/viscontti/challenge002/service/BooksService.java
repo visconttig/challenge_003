@@ -6,7 +6,10 @@ import com.viscontti.challenge002.repository.BookRepository;
 import com.viscontti.challenge002.util.ConsolePrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Formatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,12 +39,21 @@ public class BooksService {
             throw new IllegalArgumentException("You must provide a valid Book.");
         }
         ConsolePrinter.printFormatted("--> Book title: %s%n" +
-                                  "\tAuthor(s): %s%n%n",
+                                  "\tAuthor(s): %s%n" +
+                                        "\tLanguage(s): %s%n" +
+                                              "\tDownloads:\t%d%n%n",
                           book.getName(),
                           book.getAuthors()
                                   .stream()
                                   .map(Author::getName)
-                                  .collect(Collectors.toList()));
+                                  .collect(Collectors.toList()),
+                                      book.getLanguages()
+                                                      .stream()
+                                                              .map((language) -> {
+                                                                  return language.getLanguageCode();
+                                                              })
+                                                                      .collect(Collectors.toList()),
+                                      book.getDownloadCount());
     }
 
     public void printAllBooks(){

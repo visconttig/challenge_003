@@ -42,6 +42,9 @@ public class BookMapper {
 
         book.setLanguages(languages);
 
+        int downloadCount = bookDTO.getDownload_count();
+        book.setDownloadCount(downloadCount);
+
         return book;
     }
 

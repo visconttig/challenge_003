@@ -159,10 +159,10 @@ public class Main implements CommandLineRunner {
         ConsolePrinter.printFormatted("%n%n");
         List<Author> authors = authorsService.findByAliveInYear(year);
         if(!authors.isEmpty()){
-            ConsolePrinter.printFormatted("Alive authors in that year:%n\\t");
+            ConsolePrinter.printFormatted("Alive authors in that year:%n\t");
             authorsService.printAllAuthors(authors);
         } else {
-            ConsolePrinter.printFormatted("No authors alive found in that year:\\t%d.%n%n", year);
+            ConsolePrinter.printFormatted("No authors alive found in that year:\t%d.%n%n", year);
         }
     }
 

@@ -30,6 +30,8 @@ public class Book {
     )
     private List<Language> languages;
 
+    private int downloadCount;
+
     public String getName() {
         return name;
     }
@@ -56,6 +58,14 @@ public class Book {
 
     public long getId() {
         return id;
+    }
+
+    public int getDownloadCount(){
+        return downloadCount;
+    }
+
+    public void setDownloadCount(int downloadCount){
+        this.downloadCount = downloadCount;
     }
 
 }

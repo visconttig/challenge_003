@@ -1,6 +1,8 @@
 package com.viscontti.challenge002.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -13,7 +15,8 @@ public class BookDTO {
     private List<String> subjects;
     private List<String> languages;
 
-    private int download_count;
+    @JsonProperty("download_count")
+    private int downloadCount;
 
     public int getId() {
         return id;
@@ -45,7 +48,7 @@ public class BookDTO {
 
 
     public int getDownload_count() {
-        return download_count;
+        return downloadCount;
     }
 
 }
