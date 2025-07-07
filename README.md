@@ -327,13 +327,11 @@ It's a living example of how even a silly little CLI app can demonstrate:
 | **Modern Java**       | Java 21 features, Maven, Profiles, Exception handling |
 | **Developer Empathy** | CLI experience with friendly UX and error messages    |
 
-````
-
 
 ## 👋 Ready to Search Some Books?
 
 ```bash
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=cli
-````
+```
 
 Or be cool and let Docker do it.
