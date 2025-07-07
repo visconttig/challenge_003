@@ -1,6 +1,16 @@
 # 📚 Challenge: The Great Book Repository 🧠🔍
 
+
+
+![Java](https://img.shields.io/badge/Java-21-blue?logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.1-success?logo=spring)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%F0%9F%90%98-blue)
+![Docker](https://img.shields.io/badge/Dockerized-Yes-blue?logo=docker)
+[![CI](https://github.com/visconttig/challenge_003/actions/workflows/test.yml/badge.svg)](https://github.com/visconttig/challenge_003/actions/workflows/test.yml)
+
+
 Welcome to the _most delightfully **over-engineered**_ console app you'll ever see! 😎
+
 
 Welcome, brave developer, time traveler, or weary recruiter 👩‍💻👨‍💼 — you've stumbled upon a _heavily over-engineered_ Java CLI application that does one thing and does it **relentlessly well**:
 
@@ -36,7 +46,7 @@ You’ve got a mission, Agent Java. Complete the following using Spring Boot & f
 - Turn JSON into useful `DTO` objects using Jackson.
 - You’ll be friends with `@JsonProperty` and `@JsonIgnoreProperties`.
 
-### ✅ Persist with PostgresSQL using Spring Data JPA
+### ✅ Persist with PostgreSQL using Spring Data JPA
 - Store books, authors, and languages.
 - Avoid duplicates like the plague.
 
@@ -275,16 +285,16 @@ Because we care. 🥹
 
 ## 📌 Technologies Used
 
-| Stack           | Version |
-| --------------- | ------- |
-| Java            | 21      |
-| Spring Boot     | 3.x     |
-| Maven           | 💎      |
-| PostgresSQL     | 🐘      |
-| Docker          | 🐳      |
-| Jackson         | ✅      |
+| Stack          | Version |
+| -------------- | ------- |
+| Java           | 21      |
+| Spring Boot    | 3.x     |
+| Maven          | 💎      |
+| PostgreSQL     | 🐘      |
+| Docker         | 🐳      |
+| Jackson        | ✅      |
 | JPA / Hibernate | 🧠      |
-| GitHub Actions  | 🛠️      |
+| GitHub Actions | 🛠️      |
 
 ---
 
