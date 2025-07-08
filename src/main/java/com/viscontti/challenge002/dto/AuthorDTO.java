@@ -11,6 +11,18 @@ public class AuthorDTO {
     @JsonProperty("death_year")
     private int deathYear;
 
+    public AuthorDTO(){
+
+    }
+
+    public AuthorDTO(String name,
+                     int birthYear,
+                     int deathYear){
+        this.name = name;
+        this.birthYear = birthYear;
+        this.deathYear = deathYear;
+    }
+
     public String getName(){
         return name;
     }

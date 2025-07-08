@@ -36,9 +36,8 @@ public class BookMapper {
         List<Language> languages = bookDTO
                 .getLanguages()
                         .stream()
-                                .map((language) -> {
-                                    return languageService.findOrCreateLanguage(language);
-                                }).collect(Collectors.toList());
+                                .map(languageService::findOrCreateLanguage)
+                .collect(Collectors.toList());
 
         book.setLanguages(languages);
 

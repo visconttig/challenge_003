@@ -18,6 +18,21 @@ public class BookDTO {
     @JsonProperty("download_count")
     private int downloadCount;
 
+    public BookDTO(){
+
+    }
+
+    public BookDTO(String title,
+                   List<AuthorDTO> authors,
+                   List<String> languages,
+                   int downloadCount){
+        this.title = title;
+        this.authors = authors;
+        this.languages = languages;
+        this.downloadCount = downloadCount;
+    }
+
+
     public int getId() {
         return id;
     }
