@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class MenuTest {
     @BeforeEach
     void logTestInfo(TestInfo testInfo){
-        System.out.printf("### Running test:\t%s%n",
+        System.out.printf("%n### Running test:\t%s%n%n",
                           testInfo.getDisplayName());
     }
 

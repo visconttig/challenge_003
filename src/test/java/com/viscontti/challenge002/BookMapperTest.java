@@ -28,7 +28,7 @@ public class BookMapperTest {
 
     @BeforeEach
     void logTestInfo(TestInfo testInfo){
-        System.out.printf("### Running test:\t%s%n",
+        System.out.printf("%n### Running test:\t%s%n",
                           testInfo.getDisplayName());
     }
 
@@ -62,6 +62,12 @@ public class BookMapperTest {
         TestLogger.assertWithLog("Book Author",
                                  "Albert Camus",
                                  testBook.getAuthors().getFirst().getName());
+        TestLogger.assertWithLog("Birth Date",
+                                 1679,
+                                 testBook.getAuthors().getFirst().getBirthYear());
+        TestLogger.assertWithLog("Death Date",
+                                 1754,
+                                 testBook.getAuthors().getFirst().getDeathYear());
 
     }
 
