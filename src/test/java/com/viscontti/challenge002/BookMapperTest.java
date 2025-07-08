@@ -2,11 +2,15 @@ package com.viscontti.challenge002;
 
 import com.viscontti.challenge002.dto.AuthorDTO;
 import com.viscontti.challenge002.dto.BookDTO;
+import com.viscontti.challenge002.model.Author;
 import com.viscontti.challenge002.model.Book;
 import com.viscontti.challenge002.service.LanguageService;
 import com.viscontti.challenge002.util.BookMapper;
+import com.viscontti.challenge002.util.TestLogger;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,6 +27,12 @@ public class BookMapperTest {
     BookMapper bookMapper;
 
     @BeforeEach
+    void logTestInfo(TestInfo testInfo){
+        System.out.printf("### Running test:\t%s%n",
+                          testInfo.getDisplayName());
+    }
+
+    @BeforeEach
     void setup(){
         bookMapper = new BookMapper(languageService);
     }
@@ -31,6 +41,7 @@ public class BookMapperTest {
 
 
 
+    @DisplayName("Should correctly map BookDTO to Book")
     @Test
     void testMapToEntity_ShouldMapAllFieldsCorrectly(){
         AuthorDTO author1 = new AuthorDTO("Albert Camus",
@@ -46,7 +57,11 @@ public class BookMapperTest {
                                       5275924);
         Book testBook = bookMapper.toEntity(bookDTO);
 
-        assertEquals("L'Étranger", testBook.getName());
+        TestLogger.assertWithLog("Book Title",
+                                 "L'Étranger", testBook.getName());
+        TestLogger.assertWithLog("Book Author",
+                                 "Albert Camus",
+                                 testBook.getAuthors().getFirst().getName());
 
     }
 
